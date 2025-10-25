@@ -1,18 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" >
-<head>
-  <meta charset="UTF-8">
-  <title>Snapcat</title>
-  <link rel="icon" href="https://i.imgur.com/yhvsByU.png" type="image/png">
-  <link rel="stylesheet" href="./style.css">
-</head>
-<body>
-<!-- partial:index.partial.html -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SnapCat</title>
+    <title>Snapcat</title>
+    <link rel="icon" href="https://i.imgur.com/yhvsByU.png" type="image/png">
     <meta name="description" content="The internet's favorite ghost cat — born on Solana for speed, memes, and maximum meow-mentum.">
     
     <!-- Open Graph / Twitter Meta -->
@@ -44,9 +36,8 @@
             box-sizing: border-box;
         }
         
-        html, body {
+        html {
             height: 100%;
-            overflow: hidden;
         }
         
         body {
@@ -54,16 +45,15 @@
             background-color: var(--bg-yellow);
             color: var(--text-dark);
             font-size: clamp(16px, 2.2vw, 20px);
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
             position: relative;
+            overflow-x: hidden;
         }
         
         .marquee-container {
-            position: absolute;
+            position: fixed;
             left: 0;
             width: 100%;
             background-color: var(--button-black);
@@ -118,6 +108,16 @@
             }
         }
         
+        .main-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 20px;
+            min-height: calc(100vh - 60px);
+        }
+        
         .hero-content {
             text-align: center;
             max-width: 720px;
@@ -127,27 +127,27 @@
             flex-direction: column;
             align-items: center;
             gap: var(--spacing-sm);
-            margin-top: 40px;
-            margin-bottom: 40px;
         }
         
         .ghost-logo {
-            height: clamp(250px, 50vw, 600px);
+            height: clamp(200px, 35vh, 400px);
             width: auto;
             display: block;
             image-rendering: -webkit-optimize-contrast;
             image-rendering: crisp-edges;
             margin-bottom: 0;
+            max-width: 90%;
+            object-fit: contain;
         }
         
         .title-lockup {
             max-width: 100%;
             height: auto;
             display: block;
-            width: clamp(280px, 45vw, 450px);
+            width: clamp(280px, 35vw, 400px);
             image-rendering: -webkit-optimize-contrast;
             image-rendering: crisp-edges;
-            margin-top: -20px;
+            margin-top: -10px;
         }
         
         .tagline {
@@ -155,6 +155,7 @@
             font-weight: 400;
             max-width: 600px;
             margin-top: var(--spacing-sm);
+            padding: 0 var(--spacing-md);
         }
         
         .button-group {
@@ -162,6 +163,8 @@
             gap: var(--spacing-md);
             justify-content: center;
             margin-top: var(--spacing-md);
+            flex-wrap: wrap;
+            padding: 0 var(--spacing-md);
         }
         
         .cta-button {
@@ -202,19 +205,18 @@
         }
         
         .disclaimer {
-            position: absolute;
-            bottom: calc(var(--spacing-md) + 35px);
-            left: 50%;
-            transform: translateX(-50%);
+            position: relative;
+            margin-top: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
             font-size: 0.65em;
             opacity: 0.5;
-            white-space: nowrap;
-            z-index: 50;
+            text-align: center;
+            padding: 0 var(--spacing-md);
         }
         
         .corner-logo {
-            position: absolute;
-            top: calc(var(--spacing-md) + 40px); /* Below the top marquee */
+            position: fixed;
+            top: calc(var(--spacing-md) + 40px);
             left: var(--spacing-md);
             width: 60px;
             height: 60px;
@@ -238,36 +240,42 @@
         }
         
         /* Modal Styles */
-        .modal-overlay {
+        .modal {
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            display: none;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
             align-items: center;
             justify-content: center;
-            z-index: 1000;
             opacity: 0;
             transition: opacity 0.3s ease;
         }
         
-        .modal-overlay.active {
+        .modal.active {
             opacity: 1;
         }
         
         .modal-content {
             background: var(--bg-yellow);
             border-radius: 20px;
-            max-width: 900px;
-            width: 90%;
+            max-width: 90vw;
             max-height: 85vh;
+            width: 1000px;
             padding: var(--spacing-lg);
             position: relative;
-            overflow: hidden;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
             display: flex;
             flex-direction: column;
+            border: 5px solid var(--button-black);
+        }
+        
+        .modal.active .modal-content {
+            transform: scale(1);
         }
         
         .modal-header {
@@ -278,96 +286,128 @@
         }
         
         .modal-title {
-            font-size: clamp(24px, 3vw, 32px);
+            font-size: 2em;
             font-weight: 700;
+            color: var(--text-dark);
         }
         
         .close-button {
-            background: var(--button-black);
-            color: var(--bg-yellow);
+            background: none;
             border: none;
+            font-size: 2em;
+            cursor: pointer;
+            color: var(--text-dark);
+            transition: transform 0.2s ease;
             width: 40px;
             height: 40px;
-            border-radius: 50%;
-            font-size: 28px;
-            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: transform 0.2s ease;
+            border-radius: 50%;
         }
         
         .close-button:hover {
-            transform: rotate(90deg);
+            transform: scale(1.1);
+            background: rgba(0, 0, 0, 0.1);
         }
         
         .pfp-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: var(--spacing-md);
+            gap: 20px;
             overflow-y: auto;
-            padding: 10px;
-            max-height: 55vh;
+            padding: var(--spacing-sm);
+            max-height: 60vh;
+            min-height: 400px;
         }
         
         .pfp-item {
-            background: var(--button-white);
-            border-radius: 16px;
-            padding: 10px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
+            transition: transform 0.2s ease;
+            background: white;
+            border-radius: 15px;
+            padding: 10px;
+            border: 3px solid var(--button-black);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
         }
         
         .pfp-item:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
         
         .pfp-item img {
             width: 100%;
             height: auto;
+            border-radius: 10px;
             aspect-ratio: 1;
             object-fit: cover;
-            border-radius: 12px;
         }
         
         .pfp-label {
+            font-size: 0.9em;
+            font-weight: 600;
             text-align: center;
-            margin-top: 8px;
-            font-size: 0.85em;
-            font-weight: 500;
+            color: var(--text-dark);
         }
         
         .download-hint {
-            text-align: center;
             margin-top: var(--spacing-md);
+            text-align: center;
             font-size: 0.9em;
             opacity: 0.7;
+            padding: var(--spacing-sm);
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
         }
         
         .loading-message {
             text-align: center;
             padding: var(--spacing-xl);
-            font-size: 1.2em;
-            opacity: 0.7;
+            font-size: 1.1em;
+            opacity: 0.6;
         }
         
+        /* Desktop-specific adjustments */
+        @media (min-width: 1024px) {
+            .ghost-logo {
+                height: clamp(300px, 40vh, 450px);
+            }
+            
+            .title-lockup {
+                width: clamp(350px, 40vw, 450px);
+            }
+            
+            .main-container {
+                padding: 100px 20px 80px;
+            }
+        }
+        
+        /* Mobile Responsive */
         @media (max-width: 768px) {
-            .hero-content {
-                padding: var(--spacing-sm);
+            .ghost-logo {
+                height: clamp(180px, 40vw, 300px);
+            }
+            
+            .title-lockup {
+                width: clamp(250px, 60vw, 350px);
+            }
+            
+            .tagline {
+                font-size: 0.9em;
             }
             
             .button-group {
                 flex-direction: column;
-                align-items: center;
-                gap: var(--spacing-sm);
+                width: 100%;
+                max-width: 280px;
             }
             
             .cta-button {
-                width: 200px;
-                text-align: center;
+                width: 100%;
             }
             
             .corner-logo {
@@ -379,128 +419,144 @@
             
             .pfp-grid {
                 grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-                gap: var(--spacing-sm);
+                gap: 15px;
             }
             
             .modal-content {
-                width: 95%;
                 padding: var(--spacing-md);
             }
+            
+            .modal-title {
+                font-size: 1.5em;
+            }
+            
+            .main-container {
+                padding: 70px 20px 60px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                font-size: 16px;
+            }
+            
+            .ghost-logo {
+                height: 200px;
+            }
+            
+            .title-lockup {
+                width: 250px;
+            }
+            
+            .tagline {
+                font-size: 0.85em;
+            }
+            
+            .cta-button {
+                font-size: 16px;
+                padding: 12px 20px;
+            }
+        }
+        
+        /* Scrollbar styling */
+        .pfp-grid::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        .pfp-grid::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        
+        .pfp-grid::-webkit-scrollbar-thumb {
+            background: var(--button-black);
+            border-radius: 10px;
+        }
+        
+        .pfp-grid::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.8);
         }
     </style>
 </head>
 <body>
+    <!-- Top Marquee -->
     <div class="marquee-container top">
         <div class="marquee">
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">THE SHEET STAYS ON</span>
+            <span class="marquee-text">THE SHEET STAYS ON</span>
+            <span class="marquee-text">THE SHEET STAYS ON</span>
+            <span class="marquee-text">THE SHEET STAYS ON</span>
+            <span class="marquee-text">THE SHEET STAYS ON</span>
+            <span class="marquee-text">THE SHEET STAYS ON</span>
+            <span class="marquee-text">THE SHEET STAYS ON</span>
+            <span class="marquee-text">THE SHEET STAYS ON</span>
+            <span class="marquee-text">THE SHEET STAYS ON</span>
+            <span class="marquee-text">THE SHEET STAYS ON</span>
         </div>
     </div>
     
-    <div class="hero-content">
-        <img src="https://i.imgur.com/SoY5GVD.gif" 
-             alt="SnapCat ghost logo" 
-             class="ghost-logo"
-             loading="eager">
-        
-        <img src="https://i.imgur.com/PTvHSuC.png" 
-             alt="SnapCat wordmark" 
-             class="title-lockup"
-             loading="eager">
-        
-        <p class="tagline">
-            For many years, the internet believed the Snapchat mascot was a ghost...and then it meowed
-        </p>
-        
-        <div class="button-group">
-            <a href="https://x.com/i/communities/1981993863410864599" 
-               class="cta-button" 
-               target="_blank" 
-               rel="noopener noreferrer">Twitter</a>
-            <a href="https://pump.fun/" 
-               class="cta-button" 
-               target="_blank" 
-               rel="noopener noreferrer">Pump.fun</a>
-            <button class="cta-button" 
-                    onclick="openPFPModal()">
-                PFP Gallery
-            </button>
+    <!-- Corner Logo -->
+    <a href="#" class="corner-logo" aria-label="Home">
+        <img src="https://i.imgur.com/yhvsByU.png" alt="Snapcat">
+    </a>
+    
+    <!-- Main Content -->
+    <div class="main-container">
+        <div class="hero-content">
+            <!-- Ghost Logo -->
+            <img src="https://raw.githubusercontent.com/toigerwoids/snapcat/main/cracked%20ghost.png" 
+                 alt="Snapcat Ghost" 
+                 class="ghost-logo">
+            
+            <!-- Title -->
+            <h1>
+                <img src="https://raw.githubusercontent.com/toigerwoids/snapcat/main/Snapcat.png" 
+                     alt="Snapcat" 
+                     class="title-lockup">
+            </h1>
+            
+            <!-- Tagline -->
+            <p class="tagline">
+                For many years, the internet believed the Snapchat mascot was a ghost...and then it meowed
+            </p>
+            
+            <!-- CTA Buttons -->
+            <div class="button-group">
+                <a href="https://x.com/snapcatsol" class="cta-button" target="_blank">Twitter</a>
+                <a href="https://pump.fun/coin/6HYTqC2rZADVnhUdS3RnCDFN2PnZuaVdg8YJSHEipump" class="cta-button" target="_blank">Pump.fun</a>
+                <button class="cta-button" onclick="openPFPModal()">PFP Gallery</button>
+            </div>
+            
+            <!-- Built on Solana -->
+            <div class="built-on">
+                Built on Solana 👻
+            </div>
+            
+            <!-- Disclaimer -->
+            <div class="disclaimer">
+                (A memecoin about Snapcat with no association to Snap Inc.)
+            </div>
         </div>
-        
-        <p class="built-on">Powered by Solana.</p>
     </div>
     
-    <p class="disclaimer">Parody fan project. Not affiliated with Snapchat.</p>
-    
-    <div class="corner-logo">
-        <img src="https://i.imgur.com/tfBJeKQ.png" alt="SnapCat Logo" />
-    </div>
-    
+    <!-- Bottom Marquee -->
     <div class="marquee-container bottom">
         <div class="marquee">
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
-            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">THE SHEET STAYS ON</span>
+            <span class="marquee-text">THE SHEET STAYS ON</span>
+            <span class="marquee-text">THE SHEET STAYS ON</span>
+            <span class="marquee-text">THE SHEET STAYS ON</span>
+            <span class="marquee-text">THE SHEET STAYS ON</span>
+            <span class="marquee-text">THE SHEET STAYS ON</span>
+            <span class="marquee-text">THE SHEET STAYS ON</span>
+            <span class="marquee-text">THE SHEET STAYS ON</span>
+            <span class="marquee-text">THE SHEET STAYS ON</span>
+            <span class="marquee-text">THE SHEET STAYS ON</span>
         </div>
     </div>
     
     <!-- PFP Modal -->
-    <div class="modal-overlay" id="pfpModal" onclick="closePFPModal(event)">
+    <div class="modal" id="pfpModal" onclick="closePFPModal(event)">
         <div class="modal-content" onclick="event.stopPropagation()">
             <div class="modal-header">
                 <h2 class="modal-title">Choose a Snapcat</h2>
@@ -706,7 +762,7 @@
             modal.classList.remove('active');
             setTimeout(() => {
                 modal.style.display = 'none';
-                document.body.style.overflow = 'hidden';
+                document.body.style.overflow = 'auto';
             }, 300);
         }
         
@@ -731,8 +787,4 @@
         });
     </script>
 </body>
-</html>
-    
-  </body>
-  
 </html>
