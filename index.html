@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Untitled</title>
+    
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SnapCat</title>
+    <meta name="description" content="The internet's favorite ghost cat — born on Solana for speed, memes, and maximum meow-mentum.">
+    
+    <!-- Open Graph / Twitter Meta -->
+    <meta property="og:title" content="SnapCat">
+    <meta property="og:description" content="The internet's favorite ghost cat — born on Solana for speed, memes, and maximum meow-mentum.">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="SnapCat">
+    <meta name="twitter:description" content="The internet's favorite ghost cat — born on Solana for speed, memes, and maximum meow-mentum.">
+    <meta name="theme-color" content="#fffb05">
+    
+    <style>
+        :root {
+            --bg-yellow: #FEF701;
+            --text-dark: rgba(0, 0, 0, 0.85);
+            --button-black: #000;
+            --button-white: #fff;
+            --spacing-xs: 12px;
+            --spacing-sm: 16px;
+            --spacing-md: 24px;
+            --spacing-lg: 32px;
+            --spacing-xl: 48px;
+            --spacing-2xl: 64px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        body {
+            font-family: "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            background-color: var(--bg-yellow);
+            color: var(--text-dark);
+            font-size: clamp(16px, 2.2vw, 20px);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .marquee-container {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            background-color: var(--button-black);
+            color: var(--bg-yellow);
+            padding: 8px 0;
+            overflow: hidden;
+            z-index: 100;
+        }
+        
+        .marquee-container.top {
+            top: 0;
+        }
+        
+        .marquee-container.bottom {
+            bottom: 0;
+        }
+        
+        .marquee {
+            display: flex;
+            animation: scroll 20s linear infinite;
+            white-space: nowrap;
+        }
+        
+        .marquee-container.bottom .marquee {
+            animation: scroll-reverse 20s linear infinite;
+        }
+        
+        .marquee-text {
+            display: inline-block;
+            padding-right: 50px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 14px;
+        }
+        
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+        
+        @keyframes scroll-reverse {
+            0% {
+                transform: translateX(-50%);
+            }
+            100% {
+                transform: translateX(0);
+            }
+        }
+        
+        .hero-content {
+            text-align: center;
+            max-width: 720px;
+            width: 100%;
+            padding: var(--spacing-md);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-sm);
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .ghost-logo {
+            height: clamp(250px, 50vw, 600px);
+            width: auto;
+            display: block;
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+            margin-bottom: 0;
+        }
+        
+        .title-lockup {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            width: clamp(280px, 45vw, 450px);
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+            margin-top: -20px;
+        }
+        
+        .tagline {
+            line-height: 1.5;
+            font-weight: 400;
+            max-width: 600px;
+            margin-top: var(--spacing-sm);
+        }
+        
+        .button-group {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+            margin-top: var(--spacing-md);
+        }
+        
+        .cta-button {
+            background-color: var(--button-black);
+            color: var(--button-white);
+            text-decoration: none;
+            padding: 14px 22px;
+            border-radius: 9999px;
+            font-weight: 500;
+            box-shadow: 0 2px 0 rgba(0, 0, 0, 0.25);
+            transition: all 0.2s ease;
+            border: 5px solid transparent;
+            display: inline-block;
+            cursor: pointer;
+            font-size: inherit;
+            font-family: inherit;
+        }
+        
+        .cta-button:hover {
+            background-color: var(--button-white);
+            color: var(--button-black);
+            border-color: var(--button-black);
+        }
+        
+        .cta-button:focus {
+            outline: none;
+        }
+        
+        .cta-button:active {
+            outline: none;
+            transform: translateY(1px);
+        }
+        
+        .built-on {
+            font-size: 0.75em;
+            opacity: 0.7;
+            margin-top: var(--spacing-xs);
+        }
+        
+        .disclaimer {
+            position: absolute;
+            bottom: calc(var(--spacing-md) + 35px);
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.65em;
+            opacity: 0.5;
+            white-space: nowrap;
+            z-index: 50;
+        }
+        
+        .corner-logo {
+            position: absolute;
+            top: calc(var(--spacing-md) + 40px); /* Below the top marquee */
+            left: var(--spacing-md);
+            width: 60px;
+            height: 60px;
+            background-color: var(--bg-yellow);
+            padding: 10px;
+            border-radius: 12px;
+            border: 3px solid var(--button-black);
+            transition: all 0.3s ease;
+            z-index: 50;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .corner-logo:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+        
+        .corner-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+        }
+        
+        .modal-content {
+            background: var(--bg-yellow);
+            border-radius: 20px;
+            max-width: 900px;
+            width: 90%;
+            max-height: 85vh;
+            padding: var(--spacing-lg);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .modal-title {
+            font-size: clamp(24px, 3vw, 32px);
+            font-weight: 700;
+        }
+        
+        .close-button {
+            background: var(--button-black);
+            color: var(--bg-yellow);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s ease;
+        }
+        
+        .close-button:hover {
+            transform: rotate(90deg);
+        }
+        
+        .pfp-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: var(--spacing-md);
+            overflow-y: auto;
+            padding: 10px;
+            max-height: 55vh;
+        }
+        
+        .pfp-item {
+            background: var(--button-white);
+            border-radius: 16px;
+            padding: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .pfp-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        
+        .pfp-item img {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 1;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+        
+        .pfp-label {
+            text-align: center;
+            margin-top: 8px;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+        
+        .download-hint {
+            text-align: center;
+            margin-top: var(--spacing-md);
+            font-size: 0.9em;
+            opacity: 0.7;
+        }
+        
+        .loading-message {
+            text-align: center;
+            padding: var(--spacing-xl);
+            font-size: 1.2em;
+            opacity: 0.7;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-content {
+                padding: var(--spacing-sm);
+            }
+            
+            .button-group {
+                flex-direction: column;
+                align-items: center;
+                gap: var(--spacing-sm);
+            }
+            
+            .cta-button {
+                width: 200px;
+                text-align: center;
+            }
+            
+            .corner-logo {
+                width: 50px;
+                height: 50px;
+                top: calc(var(--spacing-sm) + 35px);
+                left: var(--spacing-sm);
+            }
+            
+            .pfp-grid {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+                gap: var(--spacing-sm);
+            }
+            
+            .modal-content {
+                width: 95%;
+                padding: var(--spacing-md);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="marquee-container top">
+        <div class="marquee">
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+        </div>
+    </div>
+    
+    <div class="hero-content">
+        <img src="https://i.imgur.com/SoY5GVD.gif" 
+             alt="SnapCat ghost logo" 
+             class="ghost-logo"
+             loading="eager">
+        
+        <img src="https://i.imgur.com/PTvHSuC.png" 
+             alt="SnapCat wordmark" 
+             class="title-lockup"
+             loading="eager">
+        
+        <p class="tagline">
+            For many years, the internet believed the Snapchat mascot was a ghost...and then it meowed
+        </p>
+        
+        <div class="button-group">
+            <a href="https://x.com/i/communities/1981993863410864599" 
+               class="cta-button" 
+               target="_blank" 
+               rel="noopener noreferrer">Twitter</a>
+            <a href="https://pump.fun/" 
+               class="cta-button" 
+               target="_blank" 
+               rel="noopener noreferrer">Pump.fun</a>
+            <button class="cta-button" 
+                    onclick="openPFPModal()">
+                PFP Gallery
+            </button>
+        </div>
+        
+        <p class="built-on">Powered by Solana.</p>
+    </div>
+    
+    <p class="disclaimer">Parody fan project. Not affiliated with Snapchat.</p>
+    
+    <div class="corner-logo">
+        <img src="https://i.imgur.com/tfBJeKQ.png" alt="SnapCat Logo" />
+    </div>
+    
+    <div class="marquee-container bottom">
+        <div class="marquee">
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+            <span class="marquee-text">The sheet stays on</span>
+        </div>
+    </div>
+    
+    <!-- PFP Modal -->
+    <div class="modal-overlay" id="pfpModal" onclick="closePFPModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h2 class="modal-title">Choose a Snapcat</h2>
+                <button class="close-button" onclick="closePFPModal(event)">×</button>
+            </div>
+            <div class="pfp-grid" id="pfpGrid">
+                <!-- Gallery loads here -->
+            </div>
+            <div class="download-hint">
+                👻 Click to open in a new tab and save your favorite Snapcat PFP
+            </div>
+        </div>
+    </div>
+    
+    <!-- Include the AI-generated names configuration -->
+    <script src="snapcat-image-config.js"></script>
+    
+    <script>
+        // GitHub repository configuration
+        const GITHUB_REPO = 'toigerwoids/snapcat';
+        const GITHUB_PATH = 'pfps';
+        const NAMES_JSON_URL = `https://raw.githubusercontent.com/${GITHUB_REPO}/main/snapcat-names.json`;
+        
+        // Storage key for caching names locally
+        const STORAGE_KEY = 'snapcat_names';
+        
+        /**
+         * Load names from GitHub with smart caching
+         */
+        async function loadNames() {
+            try {
+                // Always fetch from GitHub first to check for updates
+                console.log('Checking for updated names from GitHub...');
+                const response = await fetch(NAMES_JSON_URL + '?t=' + Date.now()); // Add timestamp to bypass browser cache
+                
+                if (response.ok) {
+                    const names = await response.json();
+                    
+                    // Get cached version to compare
+                    const cached = localStorage.getItem(STORAGE_KEY);
+                    let shouldUpdate = true;
+                    
+                    if (cached) {
+                        const cachedData = JSON.parse(cached);
+                        // Check if the content has changed
+                        const cachedJSON = JSON.stringify(cachedData.names);
+                        const newJSON = JSON.stringify(names);
+                        shouldUpdate = cachedJSON !== newJSON;
+                        
+                        if (!shouldUpdate) {
+                            console.log('Names unchanged, using cache');
+                            return cachedData.names;
+                        }
+                    }
+                    
+                    // Update cache with new data
+                    console.log('Names updated, refreshing cache');
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+                        names: names,
+                        timestamp: Date.now()
+                    }));
+                    
+                    return names;
+                }
+            } catch (error) {
+                // If fetch fails, try to use cached version
+                console.log('Could not fetch from GitHub, checking cache...');
+                const cached = localStorage.getItem(STORAGE_KEY);
+                if (cached) {
+                    const data = JSON.parse(cached);
+                    console.log('Using cached names (offline fallback)');
+                    return data.names;
+                }
+                console.log('No cache available, using fallback');
+            }
+            
+            return null;
+        }
+        
+        /**
+         * Fetch images from GitHub and merge with names
+         */
+        async function fetchGitHubImagesWithNames() {
+            try {
+                // Try to load names first
+                const names = await loadNames();
+                
+                // Check if we have the snapcat-image-config.js loaded
+                if (typeof snapcatImages !== 'undefined' && snapcatImages.length > 0) {
+                    console.log('Using pre-configured image list');
+                    return snapcatImages;
+                }
+                
+                // Fetch from GitHub API
+                const apiUrl = `https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_PATH}`;
+                const response = await fetch(apiUrl);
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch from GitHub API');
+                }
+                
+                const files = await response.json();
+                
+                // Filter for image files only
+                const imageFiles = files.filter(file => 
+                    /\.(jpg|jpeg|png|gif|webp)$/i.test(file.name)
+                );
+                
+                // Merge with names if available
+                return imageFiles.map(file => {
+                    const url = file.download_url || `https://raw.githubusercontent.com/${GITHUB_REPO}/main/${GITHUB_PATH}/${file.name}`;
+                    
+                    // Look for custom name
+                    let name = file.name.replace(/\.[^/.]+$/, "").replace(/-|_/g, " ");
+                    if (names && names[file.name]) {
+                        name = names[file.name].name;
+                    }
+                    
+                    return {
+                        url: url,
+                        name: name,
+                        filename: file.name
+                    };
+                });
+            } catch (error) {
+                console.error('Error fetching images:', error);
+                return getFallbackImages();
+            }
+        }
+        
+        /**
+         * Fallback image list
+         */
+        function getFallbackImages() {
+            const githubBase = `https://raw.githubusercontent.com/${GITHUB_REPO}/main/${GITHUB_PATH}/`;
+            const imageFiles = [];
+            
+            // Generate list for numbered files (1.png to 20.png)
+            for (let i = 1; i <= 20; i++) {
+                imageFiles.push({
+                    url: githubBase + `${i}.png`,
+                    name: `Snapcat${i}`,
+                    filename: `${i}.png`
+                });
+            }
+            
+            return imageFiles;
+        }
+        
+        /**
+         * Initialize PFP Grid with alphabetical sorting
+         */
+        async function initializePFPGrid() {
+            const grid = document.getElementById('pfpGrid');
+            
+            // Keep grid empty while loading (no visual indicator)
+            grid.innerHTML = '';
+            
+            try {
+                // Fetch images with names
+                const pfpImages = await fetchGitHubImagesWithNames();
+                
+                if (pfpImages.length === 0) {
+                    grid.innerHTML = '<div class="loading-message">No images found. Please check the repository.</div>';
+                    return;
+                }
+                
+                // Sort alphabetically by name
+                pfpImages.sort((a, b) => {
+                    return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+                });
+                
+                // Render the grid
+                grid.innerHTML = pfpImages.map(pfp => `
+                    <div class="pfp-item" onclick="downloadPFP('${pfp.url}', '${pfp.name}')">
+                        <img src="${pfp.url}" alt="${pfp.name}" loading="lazy" onerror="this.parentElement.style.display='none'">
+                        <div class="pfp-label">${pfp.name}</div>
+                    </div>
+                `).join('');
+                
+                console.log(`Loaded ${pfpImages.length} SnapCats (sorted A-Z)`);
+                
+            } catch (error) {
+                console.error('Error initializing PFP grid:', error);
+                grid.innerHTML = '<div class="loading-message">Error loading images. Please try again later.</div>';
+            }
+        }
+        
+        // Modal Functions
+        function openPFPModal() {
+            const modal = document.getElementById('pfpModal');
+            modal.style.display = 'flex';
+            setTimeout(() => modal.classList.add('active'), 10);
+            document.body.style.overflow = 'hidden';
+            
+            // Initialize grid when modal opens
+            initializePFPGrid();
+        }
+        
+        function closePFPModal(event) {
+            if (event) event.stopPropagation();
+            const modal = document.getElementById('pfpModal');
+            modal.classList.remove('active');
+            setTimeout(() => {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'hidden';
+            }, 300);
+        }
+        
+        function downloadPFP(url, name) {
+            // Open in new tab for easy saving
+            window.open(url, '_blank');
+        }
+        
+        // Close modal on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closePFPModal();
+            }
+        });
+        
+        // Preload the gallery in the background after page loads
+        window.addEventListener('load', () => {
+            // Pre-fetch the names after a delay
+            setTimeout(() => {
+                loadNames().catch(console.error);
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
+    
+  </body>
+  
+</html>
